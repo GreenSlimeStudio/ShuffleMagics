@@ -55,6 +55,7 @@ public class GamePanel extends JPanel implements Runnable{
             
             g2d.setColor(Color.yellow);
             g2d.fillRect(10, 10, 500, 600);
+            g2d.fillRect(0,0,3,3);
         }
     }
     
