@@ -1,6 +1,6 @@
 /**
  *
- * @author bfo
+ * @author GreenSlimeStudio
  */
 
 package ch.greenSlimeStudio.shuffleMagics;
