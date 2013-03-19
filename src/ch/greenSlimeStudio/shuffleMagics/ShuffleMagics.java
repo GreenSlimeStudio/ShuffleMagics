@@ -5,17 +5,19 @@
 
 package ch.greenSlimeStudio.shuffleMagics;
 
+import java.awt.event.KeyAdapter;
+import java.awt.event.KeyEvent;
 import javax.swing.JFrame;
 
 public class ShuffleMagics extends JFrame{
     
-    //Defines the size of the JFrame
-    //Height will be calculatet with the 16:9 solution
-    private final int WIDTH = 1280;
-    private int HEIGHT;
+    //---------------------------------------------------Variables
+    private final int WIDTH = 1280;//Defines the size of the JFrame
+    private int HEIGHT;//Height will be calculatet with the 16:9 solution
     
     private GamePanel gamePanel;
     
+    //---------------------------------------------------Constructors
     public ShuffleMagics(){
         
         HEIGHT = WIDTH/16*9;
@@ -30,10 +32,33 @@ public class ShuffleMagics extends JFrame{
         setLocationRelativeTo(null);
         setResizable(false);
         setVisible(true);
+        
+        addKeyListener(new TAdapter());
+        setFocusable(true);
+        
+        System.out.println("Loaded the Game");
+    }
+    
+    //---------------------------------------------------Getter
+    
+    //---------------------------------------------------Setter
+    
+    //---------------------------------------------------Functions
+    
+    //---------------------------------------------------Classes 
+    private class TAdapter extends KeyAdapter {//Calls every keyPressed/keyReleased-Method
+        
+        public void keyPressed(KeyEvent e) {
+
+        }
+        
+        public void keyReleased(KeyEvent e) {
+
+        }     
     }
     
     public static void main(String[] args) {
         
-        new ShuffleMagics();
+        new ShuffleMagics();      
     }
 }
