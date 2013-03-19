@@ -16,6 +16,7 @@ public class GamePanel extends JPanel implements Runnable{
     private int WIDTH;
     private int HEIGHT;
     
+    
     //Max time between the While-Loop
     private final int DELAY = 50;
 
