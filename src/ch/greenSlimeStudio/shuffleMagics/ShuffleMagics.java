@@ -12,7 +12,6 @@ import javax.swing.JFrame;
 public class ShuffleMagics extends JFrame{
     
     //---------------------------------------------------Variables  
-    //hallo mischa
     private final int WIDTH = 1280;//Defines the size of the JFrame
     private int HEIGHT;//Height will be calculatet with the 16:9 solution
     
