@@ -69,6 +69,5 @@ public class Entity {
     //---------------------------------------------------Functions
     private void doInit(){
         
-        System.out.println("Loaded Entity");
     }
 }

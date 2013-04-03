@@ -7,6 +7,7 @@ package ch.greenSlimeStudio.shuffleMagics;
 
 import java.awt.event.KeyAdapter;
 import java.awt.event.KeyEvent;
+
 import javax.swing.JFrame;
 
 public class ShuffleMagics extends JFrame{
@@ -18,7 +19,7 @@ public class ShuffleMagics extends JFrame{
     private GamePanel gamePanel;
     
     //---------------------------------------------------Constructors
-    public ShuffleMagics(){
+    public ShuffleMagics() throws Exception{
         
         HEIGHT = WIDTH/16*9;
         
@@ -27,7 +28,7 @@ public class ShuffleMagics extends JFrame{
         add(gamePanel);
         
         setTitle("Shuffle Magics (C)Green Slime Studio");
-        setSize(WIDTH+6, HEIGHT+25);
+        setSize(WIDTH+6, HEIGHT+25);//+6 & +25 because of the frame-border
         setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         setLocationRelativeTo(null);
         setResizable(false);
@@ -49,15 +50,15 @@ public class ShuffleMagics extends JFrame{
     private class TAdapter extends KeyAdapter {//Calls every keyPressed/keyReleased-Method
         
         public void keyPressed(KeyEvent e) {
-
+            gamePanel.keyPressed(e);
         }
         
         public void keyReleased(KeyEvent e) {
-
+            gamePanel.keyReleased(e);
         }     
     }
     
-    public static void main(String[] args) {
+    public static void main(String[] args) throws Exception {
         
         new ShuffleMagics();      
     }

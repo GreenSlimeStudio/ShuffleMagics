@@ -3,38 +3,37 @@
  * @author GreenSlimeStudio
  */
 
-package ch.greenSlimeStudio.shuffleMagics.Enitiy.EntityMovable.EntityLiving;
+package ch.greenSlimeStudio.shuffleMagics.Enitiy.EntityMovable.EntityNotLiving.EntityNotCol;
 
-public class EntityPlayer extends EntityLiving{
+public class Gras extends EntityNotCol{
     
     //---------------------------------------------------Variables
     
     //---------------------------------------------------Constructors
-    
-    public EntityPlayer(){
+    public Gras(){
         this(0,0);
     }
     
-    public EntityPlayer(int xPos, int yPos){
+    public Gras(int xPos, int yPos){
         this(xPos, yPos, 32, 32);
     }
     
-    public EntityPlayer(int xPos, int yPos, int width, int height){
+    public Gras(int xPos, int yPos, int width, int height){
         this(xPos, yPos, width, height, 8, 16);
     }
     
-    public EntityPlayer(int xPos, int yPos, int width, int height, int slowSpeed, int fastSpeed){
+    public Gras(int xPos, int yPos, int width, int height, int slowSpeed, int fastSpeed){
         super(xPos, yPos, width, height, slowSpeed, fastSpeed);
         
         doInit();
     }
+    
     //---------------------------------------------------Getter
     
     //---------------------------------------------------Setter
     
     //---------------------------------------------------Functions
-    private void doInit(){
+    public void doInit(){
         
-        System.out.println("Loaded EntityPlayer");
     }
 }

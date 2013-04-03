@@ -1,0 +1,99 @@
+/**
+ *
+ * @author GreenSlimeStudio
+ */
+
+package ch.greenSlimeStudio.shuffleMagics.map;
+
+import ch.greenSlimeStudio.shuffleMagics.Enitiy.EntityMovable.EntityNotLiving.EntityCol.Stone;
+import ch.greenSlimeStudio.shuffleMagics.Enitiy.EntityMovable.EntityNotLiving.EntityNotCol.Gras;
+
+import java.awt.Color;
+import java.awt.image.BufferedImage;
+import java.io.File;
+import java.util.ArrayList;
+
+import javax.imageio.ImageIO;
+
+public class Map {
+
+    //---------------------------------------------------Variables
+    private String mapPath;
+    private int mapLevel;
+    
+    private File mapFile;
+    
+    private ArrayList stoneList;
+    private ArrayList grasList;
+
+    private String[][] mapArray;
+    private BufferedImage mapImage;
+    
+    private int mapImageWidth;
+    private int mapImageHeight;
+
+    //---------------------------------------------------Constructors
+    public Map(int level) throws Exception{
+
+        stoneList = new ArrayList();
+        grasList = new ArrayList();
+        
+        //Loads the right level
+        mapPath = "res/maps/level0";
+        mapLevel = level;	
+        mapPath += Integer.toString(level) + ".png";		
+        mapFile = new File(mapPath);
+        mapImage = ImageIO.read(mapFile);
+                  
+        mapImageWidth = mapImage.getWidth();
+        mapImageHeight = mapImage.getHeight();
+
+        mapArray = new String[mapImageWidth][mapImageHeight];
+        for(int i=0;i<mapImageWidth;i++){
+
+            for(int j=0;j<mapImageHeight;j++){
+                //                                  x  y
+                Color c = new Color(mapImage.getRGB(i, j));
+                if(c.equals(Color.RED)){
+                    mapArray[i][j] = "stone";
+                }else if(c.equals(Color.WHITE)){
+                    mapArray[i][j] = "gras";
+                }else{
+                    mapArray[i][j] = "NOTHING";
+                }
+            }
+        }
+        for(int i=0;i<mapArray.length;i++){
+
+            for(int j=0;j<mapArray[0].length;j++){
+
+                if("stone".equals(mapArray[i][j])){
+                    Stone stone;
+                    stoneList.add(stone = new Stone(i*128, j*128, 128, 128));
+                }
+                if("gras".equals(mapArray[i][j])){
+                    Gras gras;
+                    grasList.add(gras = new Gras(i*128, j*128, 128, 128));
+                }
+            }
+        }
+    }
+
+    //---------------------------------------------------Getter
+    public String[][] getMapArray(){
+        return mapArray;
+    }
+
+    public ArrayList getStoneList(){
+        return stoneList;
+    }
+    
+    public ArrayList getGrasList(){
+        return grasList;
+    }
+    
+    //---------------------------------------------------Setter
+    
+    //---------------------------------------------------Functions
+    
+}

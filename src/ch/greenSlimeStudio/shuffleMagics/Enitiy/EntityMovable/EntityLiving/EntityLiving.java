@@ -8,6 +8,7 @@ package ch.greenSlimeStudio.shuffleMagics.Enitiy.EntityMovable.EntityLiving;
 import ch.greenSlimeStudio.shuffleMagics.Enitiy.EntityMovable.EntityMovable;
 
 import java.awt.Rectangle;
+import java.awt.event.KeyEvent;
 
 public class EntityLiving extends EntityMovable implements Runnable{
 
@@ -16,13 +17,17 @@ public class EntityLiving extends EntityMovable implements Runnable{
     protected boolean right;
     protected boolean down;
     protected boolean left;
+    protected boolean previousUp;
+    protected boolean previousRight;
+    protected boolean previousDown;
+    protected boolean previousLeft;
     
     protected int imageLine;
     protected int imageRow;
     
     private int animateCount;
     private int animateSpeed;
-    private final int numberAnimateImages = 5-1;
+    private final int numberAnimateImages = 5-1;//5 Images - 1 because the index starts with 0
     
     private final int DELAY = 50;//Max time between the While-Loop
     
@@ -38,7 +43,7 @@ public class EntityLiving extends EntityMovable implements Runnable{
     }
     
     public EntityLiving(int xPos, int yPos, int width, int height){
-        this(xPos, yPos, width, height, 2, 4);
+        this(xPos, yPos, width, height, 8, 16);
     }
     
     public EntityLiving(int xPos, int yPos, int width, int height, int slowSpeed, int fastSpeed){
@@ -48,11 +53,15 @@ public class EntityLiving extends EntityMovable implements Runnable{
     }
     //---------------------------------------------------Getter
     public Rectangle getNextRectangle(){
-        return new Rectangle(xPos+xAdd, yPos+yAdd, width, height);
+        return new Rectangle(xPos+xAdd+6, yPos+yAdd+6, width-12, height-12);
     }
 
     public int getImageLine() {
         return imageLine;
+    }
+    
+    public int getImageRow() {
+        return imageRow;
     }
     
     //---------------------------------------------------Setter
@@ -69,12 +78,11 @@ public class EntityLiving extends EntityMovable implements Runnable{
         imageRow = 0;
                
         animateCount = 0;
-        animateSpeed = 6;
+        animateSpeed = 2;
                  
         thread = new Thread(this);
         thread.start();
-        
-        System.out.println("Loaded EntityLiving");
+
     }
 
     @Override
@@ -87,7 +95,6 @@ public class EntityLiving extends EntityMovable implements Runnable{
         while(true){
             
             changeImageParams();
-            
             timeDiff = System.currentTimeMillis() - beforeTime;
             sleep = DELAY - timeDiff;
 
@@ -106,7 +113,12 @@ public class EntityLiving extends EntityMovable implements Runnable{
     }
     
     public void changeImageParams(){
-
+        
+        previousDown = down;
+        previousRight = right;
+        previousLeft = left;
+        previousUp = up;
+        
         if(down || right || up || left){
 
             if(down){
@@ -132,7 +144,10 @@ public class EntityLiving extends EntityMovable implements Runnable{
                 imageLine = 6;//Left
             }
         }else{
-            down = true;
+            down = previousDown;
+            right = previousRight;
+            left = previousLeft;
+            up = previousUp;
         }
         
         if(xAdd != 0 || yAdd != 0){
@@ -151,5 +166,51 @@ public class EntityLiving extends EntityMovable implements Runnable{
         }else{
             animateCount++;
         }
+    }
+    
+    @Override
+    public void keyPressed(KeyEvent e){//set the right X/Y-add
+        int key = e.getKeyCode();
+        if(key == KeyEvent.VK_LEFT){
+                xAdd = Speed;
+                left = true;
+                right = false;
+        }
+        if(key == KeyEvent.VK_RIGHT){
+                xAdd = -Speed;
+                right = true;
+                left = false;
+        }
+        if(key == KeyEvent.VK_UP){
+                yAdd = Speed;
+                up = true;
+                down = false;
+        }
+        if(key == KeyEvent.VK_DOWN){
+                yAdd = -Speed;
+                down = true;
+                up = false;
+        }
+    }
+
+    @Override
+    public void keyReleased(KeyEvent e){//reset the X/Y-add
+        int key = e.getKeyCode();
+        if(key == KeyEvent.VK_LEFT){
+                xAdd = 0;
+                left = false;
+        }
+        if(key == KeyEvent.VK_RIGHT){
+                xAdd = 0;
+                right = false;
+        }
+        if(key == KeyEvent.VK_UP){
+                yAdd = 0;
+                up = false;
+        }
+        if(key == KeyEvent.VK_DOWN){
+                yAdd = 0;
+                down = false;
+        }	
     }
 }

@@ -5,9 +5,21 @@
 
 package ch.greenSlimeStudio.shuffleMagics;
 
+import ch.greenSlimeStudio.shuffleMagics.Enitiy.EntityMovable.EntityLiving.EntityPlayer;
+import ch.greenSlimeStudio.shuffleMagics.Enitiy.EntityMovable.EntityNotLiving.EntityCol.Stone;
+import ch.greenSlimeStudio.shuffleMagics.Enitiy.EntityMovable.EntityNotLiving.EntityNotCol.Gras;
+import ch.greenSlimeStudio.shuffleMagics.images.ImageLoader;
+import ch.greenSlimeStudio.shuffleMagics.map.Map;
+
 import java.awt.Color;
 import java.awt.Graphics;
 import java.awt.Graphics2D;
+import java.awt.Image;
+import java.awt.Rectangle;
+import java.awt.event.KeyEvent;
+import java.util.ArrayList;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 
 import javax.swing.JPanel;
 
@@ -23,8 +35,16 @@ public class GamePanel extends JPanel implements Runnable{
     
     private Thread thread;
     
+    private ImageLoader imageLoader;
+    
+    private EntityPlayer character;
+    
+    private Map map;
+    private ArrayList stoneList;
+    private ArrayList grasList;
+    
     //---------------------------------------------------Constructors
-    public GamePanel(int width, int height){
+    public GamePanel(int width, int height) throws Exception{
         
         this.WIDTH = width;
         this.HEIGHT = height;
@@ -36,6 +56,11 @@ public class GamePanel extends JPanel implements Runnable{
         
         System.out.println("Loaded the GamePanel");
         
+        map = new Map(1);
+        stoneList = map.getStoneList();
+        grasList = map.getGrasList();
+        
+        character = new EntityPlayer(64, 64, 32, 32, 8, 16);
     }
     
     //---------------------------------------------------Getter
@@ -48,6 +73,9 @@ public class GamePanel extends JPanel implements Runnable{
         
         inGame = true;
         
+        //Loading all the images
+        imageLoader = new ImageLoader();    
+        
         //Creating new thread and starts it
         thread = new Thread(this);
         thread.start();
@@ -58,10 +86,26 @@ public class GamePanel extends JPanel implements Runnable{
         
         Graphics2D g2d = (Graphics2D)g;
         
-        if(inGame){
+        if(inGame){   
+            for(int i=0;i<grasList.size();i++){
+                Gras gras;
+                gras = (Gras) grasList.get(i);
+
+                Image image = imageLoader.getImageGras();
+                g2d.drawImage(image, gras.getxPos(), gras.getyPos(), 128, 128, this);
+            }
             
-            g2d.setColor(Color.yellow);
-            g2d.fillRect(10, 10, 500, 600);
+            for(int i=0;i<stoneList.size();i++){
+                Stone stone;
+                stone = (Stone) stoneList.get(i);
+
+                Image image = imageLoader.getImageStone();
+                g2d.drawImage(image, stone.getxPos(), stone.getyPos(), 128, 128, this);
+            }
+            //draw Character
+            g2d.drawImage(imageLoader.getImageCharacter(character.getImageLine(), character.getImageRow()), WIDTH/2-64, HEIGHT/2-64, 128, 128, this);
+            //draw Character-Colliderbox
+            g2d.drawRect(WIDTH/2-32+12, HEIGHT/2-32+24, 64-24, 64-24);
         }
     }
      
@@ -75,8 +119,11 @@ public class GamePanel extends JPanel implements Runnable{
         while(inGame){
             
             repaint();
-            
-            moveAllComponents();
+            try {
+                checkCollision();
+            } catch (Exception ex) {
+                Logger.getLogger(GamePanel.class.getName()).log(Level.SEVERE, null, ex);
+            }
             
             timeDiff = System.currentTimeMillis() - beforeTime;
             sleep = DELAY - timeDiff;
@@ -95,8 +142,61 @@ public class GamePanel extends JPanel implements Runnable{
         }
     }
     
+    public void checkCollision() throws Exception{
+
+
+        Rectangle rCharacter = new Rectangle(WIDTH/2-32+12, HEIGHT/2-32+24, 64-24, 64-24);
+        
+        boolean check = true;
+
+        for (int i=0;i<stoneList.size();i++) {
+            Stone stone = (Stone) stoneList.get(i);
+            Rectangle rStone = stone.getNextRectangle();
+            if (rStone.intersects(rCharacter)) {
+                check = false;
+                break;
+            }
+        }
+
+        if(check == true){
+            moveAllComponents();
+        }
+    }
     
     public void moveAllComponents(){//Calls every move-Method
         
+        for(int i=0;i<grasList.size();i++){
+            Gras gras = (Gras) grasList.get(i);
+            gras.move();
+        }
+        for(int i=0;i<stoneList.size();i++){
+            Stone stone = (Stone) stoneList.get(i);
+            stone.move();
+        }
+        character.move();
+    }
+    
+    public void keyPressed(KeyEvent e){
+        for(int i=0;i<grasList.size();i++){
+            Gras gras = (Gras) grasList.get(i);
+            gras.keyPressed(e);
+        }
+        for(int i=0;i<stoneList.size();i++){
+            Stone stone = (Stone) stoneList.get(i);
+            stone.keyPressed(e);
+        }
+        character.keyPressed(e);
+    }
+    
+    public void keyReleased(KeyEvent e){
+        for(int i=0;i<grasList.size();i++){
+            Gras gras = (Gras) grasList.get(i);
+            gras.keyReleased(e);
+        }
+        for(int i=0;i<stoneList.size();i++){
+            Stone stone = (Stone) stoneList.get(i);
+            stone.keyReleased(e);
+        }
+        character.keyReleased(e);
     }
 }

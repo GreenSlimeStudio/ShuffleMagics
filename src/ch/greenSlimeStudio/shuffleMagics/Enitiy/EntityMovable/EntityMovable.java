@@ -28,13 +28,18 @@ public class EntityMovable extends Entity{
     }
     
     public EntityMovable(int xPos, int yPos, int width, int height){
-        this(xPos, yPos, width, height, 2, 8);
+        this(xPos, yPos, width, height, 8, 16);
     }
     
     public EntityMovable(int xPos, int yPos, int width, int height, int slowSpeed, int fastSpeed){
-        super(xPos, yPos);
+        super(xPos, yPos, width, height);
         this.slowSpeed = slowSpeed;
         this.fastSpeed = fastSpeed;
+        
+        this.Speed = this.slowSpeed;
+        
+        xAdd = 0;
+        yAdd = 0;
         
         doInit();
     }
@@ -75,8 +80,7 @@ public class EntityMovable extends Entity{
     
     //---------------------------------------------------Functions
     private void doInit(){  
-        
-        System.out.println("Loaded EntityMovable");
+
     }
     
     public void move(){//set new X/Y-positions
@@ -84,11 +88,44 @@ public class EntityMovable extends Entity{
         yPos += yAdd;
     }
     
-    public void keyPressed(KeyEvent kE){//set the right X/Y-add
-        int key = kE.getKeyCode();
+
+    public void keyPressed(KeyEvent e){//set the right X/Y-add
+        int key = e.getKeyCode();
+        if(key == KeyEvent.VK_LEFT){
+            xAdd = Speed;
+        }
+        if(key == KeyEvent.VK_RIGHT){
+            xAdd = -Speed;
+        }
+        if(key == KeyEvent.VK_UP){
+            yAdd = Speed;
+        }
+        if(key == KeyEvent.VK_DOWN){
+            yAdd = -Speed;
+        }
+        if(key == KeyEvent.VK_SHIFT){
+            Speed = fastSpeed;
+            System.out.println("Fast");
+            System.out.println(Speed);
+        }
     }
-    
-    public void keyReleased(KeyEvent kE){//reset the X/Y-add
-        int key = kE.getKeyCode();
+
+    public void keyReleased(KeyEvent e){//reset the X/Y-add
+        int key = e.getKeyCode();
+        if(key == KeyEvent.VK_LEFT){
+            xAdd = 0;
+        }
+        if(key == KeyEvent.VK_RIGHT){
+            xAdd = 0;
+        }
+        if(key == KeyEvent.VK_UP){
+            yAdd = 0;
+        }
+        if(key == KeyEvent.VK_DOWN){
+            yAdd = 0;
+        }
+        if(key == KeyEvent.VK_SHIFT){
+            Speed = slowSpeed;
+        }
     }
 }
