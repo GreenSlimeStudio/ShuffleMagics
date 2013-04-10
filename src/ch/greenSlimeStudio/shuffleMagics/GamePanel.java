@@ -8,6 +8,7 @@ package ch.greenSlimeStudio.shuffleMagics;
 import ch.greenSlimeStudio.shuffleMagics.Enitiy.EntityMovable.EntityLiving.EntityPlayer;
 import ch.greenSlimeStudio.shuffleMagics.Enitiy.EntityMovable.EntityNotLiving.EntityCol.Stone;
 import ch.greenSlimeStudio.shuffleMagics.Enitiy.EntityMovable.EntityNotLiving.EntityNotCol.Gras;
+import ch.greenSlimeStudio.shuffleMagics.Enitiy.EntityMovable.EntityNotLiving.EntityNotCol.Spawn;
 import ch.greenSlimeStudio.shuffleMagics.images.ImageLoader;
 import ch.greenSlimeStudio.shuffleMagics.map.Map;
 
@@ -42,6 +43,7 @@ public class GamePanel extends JPanel implements Runnable{
     private Map map;
     private ArrayList stoneList;
     private ArrayList grasList;
+    private ArrayList spawnList;
     
     //---------------------------------------------------Constructors
     public GamePanel(int width, int height) throws Exception{
@@ -59,8 +61,13 @@ public class GamePanel extends JPanel implements Runnable{
         map = new Map(1);
         stoneList = map.getStoneList();
         grasList = map.getGrasList();
+        spawnList = map.getSpawnList();
         
-        character = new EntityPlayer(64, 64, 32, 32, 8, 16);
+        
+        Spawn spawn;
+        spawn = (Spawn) spawnList.get(0);
+        character = new EntityPlayer(spawn.getxPos(), spawn.getyPos(), 32, 32, 8, 16);
+        map.allXYSetter(WIDTH/2-32+12, HEIGHT/2-32+24, character.getxPos(), character.getyPos());
     }
     
     //---------------------------------------------------Getter
@@ -92,7 +99,7 @@ public class GamePanel extends JPanel implements Runnable{
                 gras = (Gras) grasList.get(i);
 
                 Image image = imageLoader.getImageGras();
-                g2d.drawImage(image, gras.getxPos(), gras.getyPos(), 128, 128, this);
+                g2d.drawImage(image, gras.getxPos(), gras.getyPos(), 64, 64, this);
             }
             
             for(int i=0;i<stoneList.size();i++){
@@ -100,12 +107,13 @@ public class GamePanel extends JPanel implements Runnable{
                 stone = (Stone) stoneList.get(i);
 
                 Image image = imageLoader.getImageStone();
-                g2d.drawImage(image, stone.getxPos(), stone.getyPos(), 128, 128, this);
+                g2d.drawImage(image, stone.getxPos(), stone.getyPos(), 64, 64, this);
             }
             //draw Character
             g2d.drawImage(imageLoader.getImageCharacter(character.getImageLine(), character.getImageRow()), WIDTH/2-64, HEIGHT/2-64, 128, 128, this);
             //draw Character-Colliderbox
-            g2d.drawRect(WIDTH/2-32+12, HEIGHT/2-32+24, 64-24, 64-24);
+            g2d.setColor(Color.RED);
+            g2d.drawRect(WIDTH/2-32+12, HEIGHT/2-32+24, 64-24, 64+6);
         }
     }
      
@@ -145,7 +153,7 @@ public class GamePanel extends JPanel implements Runnable{
     public void checkCollision() throws Exception{
 
 
-        Rectangle rCharacter = new Rectangle(WIDTH/2-32+12, HEIGHT/2-32+24, 64-24, 64-24);
+        Rectangle rCharacter = new Rectangle(WIDTH/2-32+12, HEIGHT/2-32+24, 64-24, 64+6);
         
         boolean check = true;
 

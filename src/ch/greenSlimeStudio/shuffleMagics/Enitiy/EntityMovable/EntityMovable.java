@@ -15,8 +15,8 @@ public class EntityMovable extends Entity{
     protected int xAdd;
     protected int yAdd;
     protected int Speed;//Actual speed
-    private final int slowSpeed;
-    private final int fastSpeed;
+    protected final int slowSpeed;
+    protected final int fastSpeed;
     
     //---------------------------------------------------Constructors
     public EntityMovable(){
@@ -91,37 +91,36 @@ public class EntityMovable extends Entity{
 
     public void keyPressed(KeyEvent e){//set the right X/Y-add
         int key = e.getKeyCode();
-        if(key == KeyEvent.VK_LEFT){
-            xAdd = Speed;
+        if(key == KeyEvent.VK_LEFT || key == KeyEvent.VK_A){
+            xAdd = getSpeed();
         }
-        if(key == KeyEvent.VK_RIGHT){
-            xAdd = -Speed;
+        if(key == KeyEvent.VK_RIGHT || key == KeyEvent.VK_D){
+            xAdd = -getSpeed();
         }
-        if(key == KeyEvent.VK_UP){
-            yAdd = Speed;
+        if(key == KeyEvent.VK_UP || key == KeyEvent.VK_W){
+            yAdd = getSpeed();
         }
-        if(key == KeyEvent.VK_DOWN){
-            yAdd = -Speed;
+        if(key == KeyEvent.VK_DOWN || key == KeyEvent.VK_S){
+            yAdd = -getSpeed();
         }
         if(key == KeyEvent.VK_SHIFT){
-            Speed = fastSpeed;
-            System.out.println("Fast");
-            System.out.println(Speed);
+            //Speed = fastSpeed;
+            setSpeed(fastSpeed);
         }
     }
 
     public void keyReleased(KeyEvent e){//reset the X/Y-add
         int key = e.getKeyCode();
-        if(key == KeyEvent.VK_LEFT){
+        if(key == KeyEvent.VK_LEFT || key == KeyEvent.VK_A){
             xAdd = 0;
         }
-        if(key == KeyEvent.VK_RIGHT){
+        if(key == KeyEvent.VK_RIGHT || key == KeyEvent.VK_D){
             xAdd = 0;
         }
-        if(key == KeyEvent.VK_UP){
+        if(key == KeyEvent.VK_UP || key == KeyEvent.VK_W){
             yAdd = 0;
         }
-        if(key == KeyEvent.VK_DOWN){
+        if(key == KeyEvent.VK_DOWN || key == KeyEvent.VK_S){
             yAdd = 0;
         }
         if(key == KeyEvent.VK_SHIFT){

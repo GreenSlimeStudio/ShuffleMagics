@@ -171,46 +171,53 @@ public class EntityLiving extends EntityMovable implements Runnable{
     @Override
     public void keyPressed(KeyEvent e){//set the right X/Y-add
         int key = e.getKeyCode();
-        if(key == KeyEvent.VK_LEFT){
-                xAdd = Speed;
+        if(key == KeyEvent.VK_LEFT || key == KeyEvent.VK_A){
+                xAdd = getSpeed();
                 left = true;
                 right = false;
         }
-        if(key == KeyEvent.VK_RIGHT){
-                xAdd = -Speed;
+        if(key == KeyEvent.VK_RIGHT || key == KeyEvent.VK_D){
+                xAdd = -getSpeed();
                 right = true;
                 left = false;
         }
-        if(key == KeyEvent.VK_UP){
-                yAdd = Speed;
+        if(key == KeyEvent.VK_UP || key == KeyEvent.VK_W){
+                yAdd = getSpeed();
                 up = true;
                 down = false;
         }
-        if(key == KeyEvent.VK_DOWN){
-                yAdd = -Speed;
+        if(key == KeyEvent.VK_DOWN || key == KeyEvent.VK_S){
+                yAdd = -getSpeed();
                 down = true;
                 up = false;
+        }
+        if(key == KeyEvent.VK_SHIFT){
+            //Speed = fastSpeed;
+            setSpeed(fastSpeed);
         }
     }
 
     @Override
     public void keyReleased(KeyEvent e){//reset the X/Y-add
         int key = e.getKeyCode();
-        if(key == KeyEvent.VK_LEFT){
+        if(key == KeyEvent.VK_LEFT || key == KeyEvent.VK_A){
                 xAdd = 0;
                 left = false;
         }
-        if(key == KeyEvent.VK_RIGHT){
+        if(key == KeyEvent.VK_RIGHT || key == KeyEvent.VK_D){
                 xAdd = 0;
                 right = false;
         }
-        if(key == KeyEvent.VK_UP){
+        if(key == KeyEvent.VK_UP || key == KeyEvent.VK_W){
                 yAdd = 0;
                 up = false;
         }
-        if(key == KeyEvent.VK_DOWN){
+        if(key == KeyEvent.VK_DOWN || key == KeyEvent.VK_S){
                 yAdd = 0;
                 down = false;
-        }	
+        }
+        if(key == KeyEvent.VK_SHIFT){
+            Speed = slowSpeed;
+        }
     }
 }
