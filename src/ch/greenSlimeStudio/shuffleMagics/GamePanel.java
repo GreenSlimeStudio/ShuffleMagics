@@ -30,6 +30,9 @@ public class GamePanel extends JPanel implements Runnable{
     private int WIDTH;
     private int HEIGHT;
     
+    public final int characterFactor = 128;
+    public final int blockFactor = 64;
+    
     private final int DELAY = 50;//Max time between the While-Loop
 
     public boolean inGame;
@@ -53,7 +56,7 @@ public class GamePanel extends JPanel implements Runnable{
         
         setSize(WIDTH, HEIGHT);
         setFocusable(true);
-        setBackground(Color.LIGHT_GRAY);
+        setBackground(Color.BLACK);
         setDoubleBuffered(true);
         
         System.out.println("Loaded the GamePanel");
@@ -99,7 +102,7 @@ public class GamePanel extends JPanel implements Runnable{
                 gras = (Gras) grasList.get(i);
 
                 Image image = imageLoader.getImageGras();
-                g2d.drawImage(image, gras.getxPos(), gras.getyPos(), 64, 64, this);
+                g2d.drawImage(image, gras.getxPos(), gras.getyPos(), blockFactor, blockFactor, this);
             }
             
             for(int i=0;i<stoneList.size();i++){
@@ -107,13 +110,13 @@ public class GamePanel extends JPanel implements Runnable{
                 stone = (Stone) stoneList.get(i);
 
                 Image image = imageLoader.getImageStone();
-                g2d.drawImage(image, stone.getxPos(), stone.getyPos(), 64, 64, this);
+                g2d.drawImage(image, stone.getxPos(), stone.getyPos(), blockFactor, blockFactor, this);
             }
             //draw Character
-            g2d.drawImage(imageLoader.getImageCharacter(character.getImageLine(), character.getImageRow()), WIDTH/2-64, HEIGHT/2-64, 128, 128, this);
+            g2d.drawImage(imageLoader.getImageCharacter(character.getImageLine(), character.getImageRow()), WIDTH/2-(characterFactor/2), HEIGHT/2-(characterFactor/2), characterFactor, characterFactor, this);
             //draw Character-Colliderbox
             g2d.setColor(Color.RED);
-            g2d.drawRect(WIDTH/2-32+12, HEIGHT/2-32+24, 64-24, 64+6);
+            g2d.drawRect(WIDTH/2-(characterFactor/4), HEIGHT/2, blockFactor, blockFactor);
         }
     }
      
@@ -153,7 +156,7 @@ public class GamePanel extends JPanel implements Runnable{
     public void checkCollision() throws Exception{
 
 
-        Rectangle rCharacter = new Rectangle(WIDTH/2-32+12, HEIGHT/2-32+24, 64-24, 64+6);
+        Rectangle rCharacter = new Rectangle(WIDTH/2-(characterFactor/4), HEIGHT/2, blockFactor, blockFactor);
         
         boolean check = true;
 

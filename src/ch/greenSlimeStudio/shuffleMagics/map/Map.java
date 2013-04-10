@@ -5,6 +5,8 @@
 
 package ch.greenSlimeStudio.shuffleMagics.map;
 
+
+import ch.greenSlimeStudio.shuffleMagics.GamePanel;
 import ch.greenSlimeStudio.shuffleMagics.Enitiy.EntityMovable.EntityNotLiving.EntityCol.Stone;
 import ch.greenSlimeStudio.shuffleMagics.Enitiy.EntityMovable.EntityNotLiving.EntityNotCol.Gras;
 import ch.greenSlimeStudio.shuffleMagics.Enitiy.EntityMovable.EntityNotLiving.EntityNotCol.Spawn;
@@ -19,6 +21,9 @@ import javax.imageio.ImageIO;
 public class Map {
 
     //---------------------------------------------------Variables
+    public final int characterFactor = 128;
+    public final int blockFactor = 64;
+    
     private String mapPath;
     private int mapLevel;
     
@@ -74,15 +79,15 @@ public class Map {
 
                 if("stone".equals(mapArray[i][j])){
                     Stone stone;
-                    stoneList.add(stone = new Stone(i*64, j*64, 64, 64, 8, 16));
+                    stoneList.add(stone = new Stone(i*blockFactor, j*blockFactor, blockFactor, blockFactor, 8, 16));
                 }
                 if("gras".equals(mapArray[i][j])){
                     Gras gras;
-                    grasList.add(gras = new Gras(i*64, j*64, 64, 64, 8, 16));
+                    grasList.add(gras = new Gras(i*blockFactor, j*blockFactor, blockFactor, blockFactor, 8, 16));
                 }
                 if("spawn".equals(mapArray[i][j])){
                     Spawn spawn;
-                    spawnList.add(spawn = new Spawn(i*64, j*64, 64, 64, 8, 16));
+                    spawnList.add(spawn = new Spawn(i*blockFactor, j*blockFactor, blockFactor, blockFactor, 8, 16));
                 }
             }
         }

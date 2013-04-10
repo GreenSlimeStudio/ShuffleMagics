@@ -30,11 +30,7 @@ public class ImageLoader {
             for(int j=0;j<5;j++){
                 imageCharacter[i][j] = new SubImage(j*32, i*32, 32, 32, "res/character.png").getImage();
             }
-        }
-        //imageCharacter[][] = new Image();
-        
-        //imageCharacter = (new SubImage(0, 0, 32, 32, "res/character.png")).getImage();
-        
+        }        
     }
 
     //---------------------------------------------------Getter
